@@ -1,0 +1,112 @@
+{
+  "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/master/assets/oh-my-opencode.schema.json",
+  "google_auth": false,
+  "agents": {
+    "sisyphus": {
+      "model": "google/antigravity-gemini-3.1-pro",
+      "variant": "high"
+    },
+    "oracle": {
+      "model": "google/gemini-3.1-pro",
+      "variant": "high"
+    },
+    "librarian": {
+      "model": "opencode/glm-4.7-free",
+      "variant": "medium"
+    },
+    "explore": {
+      "model": "opencode/gpt-5-nano",
+      "variant": "high"
+    },
+    "multimodal-looker": {
+      "model": "google/gemini-3.1-flash",
+      "variant": "high"
+    },
+    "prometheus": {
+      "model": "google/gemini-3.1-pro",
+      "variant": "high"
+    },
+    "metis": {
+      "model": "google/gemini-3.1-pro",
+      "variant": "high"
+    },
+    "momus": {
+      "model": "google/gemini-3.1-pro",
+      "variant": "high"
+    },
+    "atlas": {
+      "model": "google/gemini-3.1-pro",
+      "variant": "high"
+    },
+    "executor": {
+      "model": "google/antigravity-gemini-3.1-pro",
+      "variant": "low"
+    },
+    "reviewer": {
+      "model": "google/antigravity-gemini-3.1-pro",
+      "variant": "high"
+    },
+    "tester": {
+      "model": "google/antigravity-gemini-3-flash",
+      "variant": "high"
+    },
+    "security-auditor": {
+      "model": "google/antigravity-gemini-3.1-pro",
+      "variant": "high"
+    },
+    "refactorer": {
+      "model": "google/antigravity-gemini-3.1-pro",
+      "variant": "high"
+    },
+    "doc-writer": {
+      "model": "google/antigravity-gemini-3-flash",
+      "variant": "high"
+    }
+  },
+  "categories": {
+    "visual-engineering": {
+      "model": "google/gemini-3.1-pro",
+      "variant": "high"
+    },
+    "artistry": {
+      "model": "google/gemini-3.1-pro",
+      "variant": "high"
+    },
+    "writing": {
+      "model": "google/gemini-3.1-flash",
+      "variant": "high"
+    },
+    "quick": {
+      "model": "google/gemini-3.1-flash",
+      "variant": "high"
+    },
+    "ultrabrain": {
+      "model": "google/gemini-3.1-pro",
+      "variant": "high"
+    },
+    "implementation": {
+      "model": "google/antigravity-gemini-3.1-pro",
+      "variant": "high"
+    },
+    "review": {
+      "model": "google/antigravity-gemini-3.1-pro",
+      "variant": "high"
+    },
+    "testing": {
+      "model": "google/antigravity-gemini-3-flash",
+      "variant": "high"
+    },
+    "security": {
+      "model": "google/antigravity-gemini-3.1-pro",
+      "variant": "high"
+    },
+    "unspecified-low": {
+      "model": "google/gemini-3.1-flash",
+      "variant": "high"
+    },
+    "unspecified-high": {
+      "model": "google/gemini-3.1-flash",
+      "variant": "high"
+    }
+  }
+}
