@@ -13,9 +13,8 @@
       "variant": "max"
     },
     "sisyphus": {
-      "model": "google/antigravity-claude-sonnet-4-6-thinking",
+      "model": "google/antigravity-claude-opus-4-6-thinking",
       "variant": "max",
-      "temperature": 0.3
     },
     "oracle": {
       "model": "google/antigravity-claude-opus-4-6-thinking",
@@ -105,7 +104,7 @@
       "variant": "max"
     },
     "security": {
-      "model": "google/antigravity-claude-sonnet-4-6-thinking",
+      "model": "google/antigravity-claude-opus-4-6-thinking",
       "variant": "max"
     },
     "unspecified-low": {
