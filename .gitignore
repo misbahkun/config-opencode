@@ -1,3 +1,7 @@
 antigravity-accounts.json
 node_modules/
 .sisyphus/
+.gitignore
+antigravity-accounts.json.*.tmp
+antigravity-signature-cache.json
+antigravity-logs/
