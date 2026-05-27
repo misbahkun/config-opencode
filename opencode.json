@@ -1,9 +1,12 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "theme": "system",
+  "model": "9router/kr/claude-opus-4.6",
+  "small_model": "9router/kr/claude-haiku-4.5-thinking",
+  "default_agent": "sisyphus",
+  "instructions": ["AGENTS.md"],
   "plugin": [
     "opencode-antigravity-auth@latest",
-    "oh-my-opencode",
+    "oh-my-openagent",
     "@tarquinen/opencode-dcp",
     "opencode-supermemory",
     "@ramtinj95/opencode-tokenscope",
@@ -12,85 +15,81 @@
     "cc-safety-net"
   ],
   "provider": {
-    "google": {
-      "name": "Google",
+    "9router": {
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "http://127.0.0.1:20128/v1",
+        "apiKey": "${ROUTER_API_KEY}"
+      },
       "models": {
-        "antigravity-gemini-3.1-pro": {
-          "name": "Gemini 3.1 Pro (Antigravity)",
-          "limit": {
-            "context": 1048576,
-            "output": 65535
-          },
-          "modalities": {
-            "input": [
-              "text",
-              "image",
-              "pdf"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "variants": {
-            "low": {
-              "thinkingLevel": "low"
-            },
-            "high": {
-              "thinkingLevel": "high"
-            }
-          }
+        "kr/claude-sonnet-4.5": {
+          "name": "kr/claude-sonnet-4.5",
+          "supportsImages": true
         },
-        "antigravity-gemini-3-flash": {
-          "name": "Gemini 3 Flash (Antigravity)",
-          "limit": {
-            "context": 1048576,
-            "output": 65536
-          },
-          "modalities": {
-            "input": [
-              "text",
-              "image",
-              "pdf"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "variants": {
-            "minimal": {
-              "thinkingLevel": "minimal"
-            },
-            "low": {
-              "thinkingLevel": "low"
-            },
-            "medium": {
-              "thinkingLevel": "medium"
-            },
-            "high": {
-              "thinkingLevel": "high"
-            }
-          }
+        "kr/claude-opus-4.6": {
+          "name": "kr/claude-opus-4.6",
+          "supportsImages": true
         },
-        "antigravity-claude-opus-4-6-thinking": {
-          "name": "Claude Opus 4.6 Thinking (Antigravity)",
+        "kr/claude-haiku-4.5": {
+          "name": "kr/claude-haiku-4.5",
+          "supportsImages": true
+        },
+        "kr/claude-sonnet-4.5-thinking": {
+          "name": "kr/claude-sonnet-4.5-thinking",
+          "supportsImages": true
+        },
+        "kr/claude-sonnet-4.5-thinking-agentic": {
+          "name": "kr/claude-sonnet-4.5-thinking-agentic",
+          "supportsImages": true
+        },
+        "kr/claude-opus-4.6-thinking": {
+          "name": "kr/claude-opus-4.6-thinking",
+          "supportsImages": true
+        },
+        "kr/claude-opus-4.6-thinking-agentic": {
+          "name": "kr/claude-opus-4.6-thinking-agentic",
+          "supportsImages": true,
           "limit": {
             "context": 200000,
             "output": 64000
           },
           "modalities": {
-            "input": [
-              "text",
-              "image",
-              "pdf"
-            ],
-            "output": [
-              "text"
-            ]
+            "input": ["text", "image", "pdf"],
+            "output": ["text"]
+          }
+        },
+        "kr/claude-sonnet-4.6": {
+          "name": "kr/claude-sonnet-4.6",
+          "supportsImages": true,
+          "limit": {
+            "context": 200000,
+            "output": 64000
+          },
+          "modalities": {
+            "input": ["text", "image", "pdf"],
+            "output": ["text"]
+          }
+        },
+        "kr/claude-sonnet-4.6-thinking": {
+          "name": "kr/claude-sonnet-4.6-thinking",
+          "supportsImages": true,
+          "limit": {
+            "context": 200000,
+            "output": 64000
+          },
+          "modalities": {
+            "input": ["text", "image", "pdf"],
+            "output": ["text"]
           },
           "variants": {
             "low": {
               "thinkingConfig": {
                 "thinkingBudget": 8192
+              }
+            },
+            "high": {
+              "thinkingConfig": {
+                "thinkingBudget": 16384
               }
             },
             "max": {
@@ -100,51 +99,36 @@
             }
           }
         },
-        "antigravity-claude-sonnet-4-6-thinking": {
-          "name": "Claude Sonnet 4.6 Thinking (Antigravity)",
+        "kr/claude-haiku-4.5-thinking": {
+          "name": "kr/claude-haiku-4.5-thinking",
+          "supportsImages": true,
           "limit": {
             "context": 200000,
             "output": 64000
           },
           "modalities": {
-            "input": [
-              "text",
-              "image",
-              "pdf"
-            ],
-            "output": [
-              "text"
-            ]
+            "input": ["text", "image", "pdf"],
+            "output": ["text"]
           },
           "variants": {
             "low": {
               "thinkingConfig": {
-                "thinkingBudget": 8192
+                "thinkingBudget": 4096
               }
             },
-            "max": {
+            "high": {
               "thinkingConfig": {
-                "thinkingBudget": 32768
+                "thinkingBudget": 10240
               }
             }
           }
         },
-        "antigravity-claude-sonnet-4-6": {
-          "name": "Claude Sonnet 4.6 (Antigravity)",
-          "limit": {
-            "context": 200000,
-            "output": 64000
-          },
-          "modalities": {
-            "input": [
-              "text",
-              "image",
-              "pdf"
-            ],
-            "output": [
-              "text"
-            ]
-          }
+        "cx/gpt-5.5": {
+          "name": "cx/gpt-5.5",
+          "supportsImages": true
+        },
+        "cx/gpt-5.3-codex-xhigh": {
+          "name": "cx/gpt-5.3-codex-xhigh"
         }
       }
     }

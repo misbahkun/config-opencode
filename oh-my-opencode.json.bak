@@ -15,7 +15,6 @@
     "sisyphus": {
       "model": "google/antigravity-claude-opus-4-6-thinking",
       "variant": "max",
-      "temperature": 0.3
     },
     "oracle": {
       "model": "google/antigravity-claude-opus-4-6-thinking",
@@ -48,23 +47,23 @@
       "variant": "high"
     },
     "executor": {
-      "model": "google/antigravity-claude-opus-4-6-thinking",
+      "model": "google/antigravity-claude-sonnet-4-6-thinking",
       "variant": "low"
     },
     "reviewer": {
-      "model": "google/antigravity-claude-opus-4-6-thinking",
+      "model": "google/antigravity-claude-sonnet-4-6-thinking",
       "variant": "max"
     },
     "tester": {
-      "model": "google/antigravity-claude-opus-4-6-thinking",
+      "model": "google/antigravity-claude-sonnet-4-6-thinking",
       "variant": "max"
     },
     "security-auditor": {
-      "model": "google/antigravity-claude-opus-4-6-thinking",
+      "model": "google/antigravity-claude-sonnet-4-6-thinking",
       "variant": "max"
     },
     "refactorer": {
-      "model": "google/antigravity-claude-opus-4-6-thinking",
+      "model": "google/antigravity-claude-sonnet-4-6-thinking",
       "variant": "max"
     },
     "doc-writer": {
@@ -93,15 +92,15 @@
       "variant": "max"
     },
     "implementation": {
-      "model": "google/antigravity-claude-opus-4-6-thinking",
+      "model": "google/antigravity-claude-sonnet-4-6-thinking",
       "variant": "max"
     },
     "review": {
-      "model": "google/antigravity-claude-opus-4-6-thinking",
+      "model": "google/antigravity-claude-sonnet-4-6-thinking",
       "variant": "max"
     },
     "testing": {
-      "model": "google/antigravity-claude-opus-4-6-thinking",
+      "model": "google/antigravity-claude-sonnet-4-6-thinking",
       "variant": "max"
     },
     "security": {
