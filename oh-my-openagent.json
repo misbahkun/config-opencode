@@ -1,0 +1,119 @@
+{
+  "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/master/assets/oh-my-opencode.schema.json",
+  "google_auth": false,
+  "disabled_hooks": [
+    "anthropic-context-window-limit-recovery"
+  ],
+  "browser_automation_engine": {
+    "provider": "playwright"
+  },
+  "agents": {
+    "hephaestus": {
+      "model": "9router/kr/claude-opus-4.6-thinking",
+      "variant": "max"
+    },
+    "sisyphus": {
+      "model": "9router/kr/claude-opus-4.6-thinking-agentic",
+      "variant": "max"
+    },
+    "oracle": {
+      "model": "9router/kr/claude-opus-4.6-thinking-agentic",
+      "variant": "high"
+    },
+    "librarian": {
+      "model": "9router/kr/claude-sonnet-4.6"
+    },
+    "explore": {
+      "model": "9router/kr/claude-sonnet-4.6-thinking",
+      "variant": "high"
+    },
+    "multimodal-looker": {
+      "model": "9router/kr/claude-sonnet-4.6-thinking",
+      "variant": "high"
+    },
+    "prometheus": {
+      "model": "9router/kr/claude-opus-4.6-thinking-agentic",
+      "variant": "max"
+    },
+    "metis": {
+      "model": "9router/kr/claude-opus-4.6-thinking-agentic",
+      "variant": "max"
+    },
+    "momus": {
+      "model": "9router/kr/claude-sonnet-4.6"
+    },
+    "atlas": {
+      "model": "9router/kr/claude-sonnet-4.6-thinking",
+      "variant": "high"
+    },
+    "executor": {
+      "model": "9router/kr/claude-sonnet-4.6-thinking",
+      "variant": "low"
+    },
+    "reviewer": {
+      "model": "9router/kr/claude-sonnet-4.6-thinking",
+      "variant": "max"
+    },
+    "tester": {
+      "model": "9router/kr/claude-sonnet-4.6-thinking",
+      "variant": "max"
+    },
+    "security-auditor": {
+      "model": "9router/kr/claude-sonnet-4.6-thinking",
+      "variant": "max"
+    },
+    "refactorer": {
+      "model": "9router/kr/claude-sonnet-4.6-thinking",
+      "variant": "max"
+    },
+    "doc-writer": {
+      "model": "9router/kr/claude-sonnet-4.6-thinking",
+      "variant": "high"
+    }
+  },
+  "categories": {
+    "visual-engineering": {
+      "model": "9router/kr/claude-sonnet-4.6-thinking",
+      "variant": "high"
+    },
+    "artistry": {
+      "model": "9router/kr/claude-sonnet-4.6-thinking",
+      "variant": "high"
+    },
+    "writing": {
+      "model": "9router/kr/claude-sonnet-4.6"
+    },
+    "quick": {
+      "model": "9router/kr/claude-haiku-4.5-thinking",
+      "variant": "high"
+    },
+    "ultrabrain": {
+      "model": "9router/kr/claude-opus-4.6-thinking-agentic",
+      "variant": "max"
+    },
+    "implementation": {
+      "model": "9router/kr/claude-sonnet-4.6-thinking",
+      "variant": "max"
+    },
+    "review": {
+      "model": "9router/kr/claude-sonnet-4.6-thinking",
+      "variant": "max"
+    },
+    "testing": {
+      "model": "9router/kr/claude-sonnet-4.6-thinking",
+      "variant": "max"
+    },
+    "security": {
+      "model": "9router/kr/claude-opus-4.6-thinking",
+      "variant": "max"
+    },
+    "unspecified-low": {
+      "model": "9router/kr/claude-haiku-4.5-thinking",
+      "variant": "high"
+    },
+    "unspecified-high": {
+      "model": "9router/kr/claude-opus-4.6-thinking",
+      "variant": "max"
+    }
+  }
+}
