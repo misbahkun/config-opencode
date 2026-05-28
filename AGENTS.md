@@ -1,5 +1,24 @@
 # Development Guidelines
 
+## ⛔ STOP — Git Check (BEFORE ANY FILE CHANGE)
+
+This is the FIRST thing to do on EVERY project interaction. NO EXCEPTIONS. Do NOT create, edit, or delete any file until this passes.
+
+1. Run `git rev-parse --is-inside-work-tree` in the project root
+2. If NOT a git repo:
+   - `git init`
+   - Create `.gitignore` (respect existing ignores)
+   - `git add . && git commit -m "chore: initial commit - base project"`
+3. If git exists but has no commits:
+   - `git add . && git commit -m "chore: initial commit - base project"`
+4. NEVER work on `main`/`master` — create a branch first:
+   - `feature/`, `fix/`, `refactor/`, `chore/` prefixes
+5. Only THEN proceed with the actual task.
+
+Violation = broken diff history, no rollback possible, user loses trust.
+
+---
+
 ## Coding Principles
 
 ### General Guidelines
@@ -106,6 +125,8 @@ Copy-Item -LiteralPath "$env:USERPROFILE\.config\opencode\opencode.json" -Destin
 ```
 
 This is non-negotiable. Config changes can break the entire environment.
+
+
 
 ## Tools and MCP Servers
 
