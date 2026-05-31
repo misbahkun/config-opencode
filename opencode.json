@@ -5,7 +5,6 @@
   "default_agent": "sisyphus",
   "instructions": ["AGENTS.md"],
   "plugin": [
-    "opencode-antigravity-auth@latest",
     "oh-my-openagent",
     "@tarquinen/opencode-dcp",
     "opencode-supermemory",
