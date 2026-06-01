@@ -175,7 +175,13 @@ Before modifying ANY opencode configuration file, ALWAYS create a backup first:
 - `oh-my-openagent.jsonc` → `oh-my-openagent.jsonc.bak.YYYYMMDD`
 - Any other config under `~/.config/opencode/` → same pattern
 
+**Linux/macOS:**
 ```bash
+cp ~/.config/opencode/opencode.json ~/.config/opencode/opencode.json.bak.$(date +%Y%m%d)
+```
+
+**Windows (PowerShell):**
+```powershell
 Copy-Item -LiteralPath "$env:USERPROFILE\.config\opencode\opencode.json" -Destination "$env:USERPROFILE\.config\opencode\opencode.json.bak.$(Get-Date -Format 'yyyyMMdd')"
 ```
 
@@ -185,16 +191,36 @@ This is non-negotiable. Config changes can break the entire environment.
 
 ## Tools and MCP Servers
 
-### Context7 MCP
-Use Context7 automatically when you need:
+### Active Plugins (via opencode.json)
+
+These plugins are loaded automatically. Understand what each provides:
+
+| Plugin | What It Does |
+|---|---|
+| `oh-my-openagent` | Agent management, LSP integration, browser automation, category system |
+| `@tarquinen/opencode-dcp` | Dynamic Context Pruning — automatic conversation compression to maintain context quality |
+| `opencode-supermemory` | Persistent memory across sessions — store/recall project knowledge, patterns, preferences |
+| `@ramtinj95/opencode-tokenscope` | Token usage analysis — track and optimize context consumption |
+| `opencode-wakatime` | Time tracking — logs coding activity to WakaTime |
+| `opencode-sync-plugin` | Session sync across devices |
+| `cc-safety-net` | Safety guardrails — prevents dangerous operations |
+
+### Context7 (via Librarian Agent)
+
+Context7 is NOT an MCP server — it's accessed through the `librarian` agent's built-in tools (`context7_resolve-library-id` and `context7_query-docs`).
+
+Use proactively when working with:
 - Library/API documentation
 - Code generation examples
 - Setup or configuration steps
 - Framework-specific patterns
 
-Don't wait for explicit requests - proactively use Context7 when it would help.
+Fire the `librarian` agent instead of calling Context7 directly.
 
-### Playwright MCP
+### Playwright (Built-in Skill)
+
+Playwright is NOT an MCP server — it's a built-in skill (`/playwright`).
+
 Use for browser automation and testing:
 - E2E testing
 - Web scraping
@@ -202,87 +228,196 @@ Use for browser automation and testing:
 - Screenshot generation
 
 ### LSP Support
-OpenCode LSP integration is enabled through OhMyOpenAgent. Common language servers installed on this machine include:
-- TypeScript/JavaScript: `typescript-language-server`
-- Python: `basedpyright-langserver`
-- PHP: `intelephense`
-- JSON/CSS/HTML/ESLint: `vscode-langservers-extracted`
-- YAML: `yaml-language-server`
-- Bash: `bash-language-server`
 
-Use LSP diagnostics after editing supported source files when available.
+LSP integration is enabled through OhMyOpenAgent. Currently installed language servers:
+
+- **PHP**: `intelephense` ✅ (installed)
+
+**Not yet installed** (install when needed):
+- TypeScript/JavaScript: `npm i -g typescript-language-server`
+- Python: `pip install basedpyright-langserver`
+- JSON/CSS/HTML/ESLint: `npm i -g vscode-langservers-extracted`
+- YAML: `npm i -g yaml-language-server`
+- Bash: `npm i -g bash-language-server`
+
+Use LSP diagnostics (`lsp_diagnostics` tool) after editing supported source files.
 
 ### PDF Reading
-When asked to read or analyze a PDF, first try the built-in file reading tools. If text extraction is incomplete or Markdown output is needed, run:
 
-```bash
-python "C:\Users\Misuba\.config\opencode\scripts\pdf_to_md.py" "C:\path\to\file.pdf"
-```
+Use the built-in `look_at` tool or `read` tool for PDFs first. If text extraction is incomplete, use the `multimodal-looker` agent for visual/document analysis.
 
-To save the Markdown output to a file, provide an output path:
+### Supermemory (Persistent Memory)
 
-```bash
-python "C:\Users\Misuba\.config\opencode\scripts\pdf_to_md.py" "C:\path\to\file.pdf" "C:\path\to\file.md"
-```
+Use `supermemory` tool to:
+- `search` — find relevant stored knowledge
+- `add` — store new project patterns, decisions, preferences
+- `profile` — view user profile
+- `list` — see recent memories
+- `forget` — remove outdated memories
+
+Store important decisions, project conventions, and learned patterns proactively.
 
 ## Agent Usage Guidelines
 
-### When to Use Specific Agents
+### Active Agents Overview
 
-**sisyphus** - Ultra-complex, multi-step tasks requiring deep reasoning
-- System architecture design
-- Complex algorithm implementation
-- Multi-service integration
+All agents below are configured in `oh-my-openagent.json`. Model and variant determine capability — higher variant = deeper reasoning but slower.
 
-**oracle** - Strategic planning and high-level decisions
-- Technology stack selection
-- Architecture patterns
-- Long-term technical strategy
+---
 
-**prometheus** - Complex problem solving
-- Debugging difficult issues
-- Performance optimization
-- Complex refactoring
+### Tier 1: Core Agents (Use Daily)
 
-**metis** - Intelligent code analysis
-- Code review
-- Pattern detection
-- Optimization suggestions
+**sisyphus** (default) — Orchestrator & implementer. `qwen3.7-max` / max
+- USE: Multi-step implementation, task decomposition, delegation to other agents
+- This is the default agent. Most work starts here.
+- Sisyphus delegates to specialists, does NOT implement everything itself.
 
-**executor** - Fast implementation
-- Well-defined features
-- Bug fixes
-- Routine tasks
+**oracle** — Read-only high-IQ consultant. `glm-5.1` / max
+- USE: Architecture decisions, hard debugging (after 2+ failed attempts), security/performance concerns, multi-system tradeoffs
+- DO NOT: Ask for implementation — oracle is READ-ONLY
+- EXPENSIVE. Consult only when the problem genuinely requires deep reasoning.
 
-**reviewer** - Code review
-- Security analysis
-- Quality checks
-- Best practices validation
+**explore** — Codebase grep. `deepseek-v4-flash` / high
+- USE: "Where is X?", "Find all files that...", "Which module handles Y?"
+- CHEAP and fast. Fire liberally in parallel (2-5 at once).
+- DO NOT: Ask it to implement or modify code.
 
-**tester** - Testing strategy
-- Test generation
-- Coverage analysis
-- Test architecture
+**librarian** — External reference search. `deepseek-v4-flash` / high
+- USE: Library docs, OSS examples, framework best practices, unfamiliar packages
+- Searches GitHub, Context7, web — NOT your local codebase (that's explore).
+- Fire immediately when unfamiliar libraries are involved.
 
-**security-auditor** - Security analysis
-- Vulnerability assessment
-- Security best practices
-- Penetration testing mindset
+---
 
-**refactorer** - Code refactoring
-- Technical debt reduction
-- Code cleanup
-- Pattern improvements
+### Tier 2: Specialist Agents (Use When Needed)
 
-**doc-writer** - Documentation
-- API documentation
-- Technical writing
-- README files
+**prometheus** — Complex problem solver. `glm-5.1` / max
+- USE: Difficult debugging, performance optimization, complex refactoring
+- vs oracle: Prometheus IMPLEMENTS solutions, oracle only ADVISES. Use prometheus when you need code changes, oracle when you need a decision.
 
-**explorer** - Fast codebase exploration
-- Finding files and patterns
-- Understanding code structure
-- Quick searches
+**metis** — Code analyst & pre-planner. `qwen3.7-max` / high
+- USE: Pre-planning analysis, identifying hidden intentions in ambiguous requests, scope clarification
+- vs oracle: Metis analyzes REQUIREMENTS, oracle analyzes ARCHITECTURE.
+
+**momus** — Plan critic. `qwen3.7-max` / high
+- USE: Review work plans for clarity, verifiability, completeness BEFORE implementation
+- Invoke with plan file path as prompt. Catches gaps and ambiguities early.
+
+**hephaestus** — Heavy implementation. `deepseek-v4-pro` / max
+- USE: Large-scale implementation tasks requiring sustained effort and deep code generation
+- vs executor: Hephaestus handles COMPLEX multi-file work, executor handles SIMPLE well-defined tasks.
+
+**executor** — Fast implementer. `deepseek-v4-pro` / high
+- USE: Well-defined features, bug fixes, routine tasks with clear scope
+- DO NOT: Give it ambiguous or open-ended tasks — it will guess and ship.
+
+**reviewer** — Code quality reviewer. `deepseek-v4-pro` / max
+- USE: Quality checks, best practices validation, pattern enforcement
+- vs code-reviewer: Reviewer checks BEST PRACTICES, code-reviewer checks SMELLS & RISKS (see below).
+
+**code-reviewer** (custom) — Smell detector & risk finder. Read-only.
+- USE: Focused code review on diffs — security, performance, architecture, concurrency smells
+- Outputs: What, Where, Why, Fix — ranked by severity.
+- vs reviewer: Code-reviewer is SKEPTICAL and EVIDENCE-BASED, reviewer is BEST-PRACTICES oriented.
+
+**tester** — Testing strategist. `deepseek-v4-pro` / high
+- USE: Test generation, coverage analysis, test architecture design
+
+**security-auditor** — Security specialist. `glm-5.1` / max
+- USE: Vulnerability assessment, penetration testing mindset, security best practices
+- vs reviewer: Security-auditor goes DEEP on security only, reviewer covers broader quality.
+
+**refactorer** — Code cleanup. `deepseek-v4-pro` / high
+- USE: Technical debt reduction, pattern improvements, code restructuring
+- DO NOT: Use for bug fixes — refactorer changes structure, not behavior.
+
+**doc-writer** — Documentation. `qwen3.7-max` / high
+- USE: API docs, technical writing, README files
+
+**deep-thinker** (custom) — Structured thinking partner. Read-only.
+- USE: Ambiguous challenges, difficult decisions, breaking down complexity
+- Asks clarifying questions, applies frameworks (five-whys, jobs-to-be-done, etc.), outputs structured analysis with next actions.
+- vs metis: Deep-thinker explores the PROBLEM SPACE, metis analyzes the TASK SCOPE.
+
+**multimodal-looker** — Media analyzer. `mimo-v2.5-pro`
+- USE: PDFs, images, diagrams that need interpretation beyond raw text
+- Extracts specific information from visual/document content.
+
+**atlas** — Sustained worker. `deepseek-v4-pro` / high
+- USE: Long-running tasks that need consistent effort without deep reasoning
+
+---
+
+### Categories (Task Delegation System)
+
+Categories are domain-optimized configurations used via `task(category="...")`. Each category uses a model tuned for that domain.
+
+| Category | Model | When to Use |
+|---|---|---|
+| `visual-engineering` | mimo-v2.5-pro | UI, CSS, styling, layout, animation, frontend components |
+| `artistry` | glm-5.1 | Complex creative problem-solving beyond standard patterns |
+| `ultrabrain` | glm-5.1 | Hard logic, algorithms, architecture — give goal only, not steps |
+| `deep` | (varies) | Autonomous research + implementation, ONE goal per call |
+| `quick` | deepseek-v4-flash | Trivial: single-file changes, typo fixes, simple mods |
+| `implementation` | deepseek-v4-pro | General implementation tasks |
+| `review` | deepseek-v4-pro | General review tasks |
+| `testing` | deepseek-v4-pro | General testing tasks |
+| `security` | glm-5.1 | Security-focused tasks |
+| `writing` | qwen3.7-max | Documentation, prose, technical writing |
+| `unspecified-low` | deepseek-v4-flash | Low-effort tasks that don't fit other categories |
+| `unspecified-high` | deepseek-v4-pro | High-effort tasks that don't fit other categories |
+
+**MANDATORY**: Visual work ALWAYS uses `visual-engineering`. Never delegate UI/styling to other categories.
+
+---
+
+### Decision Tree: Which Agent/Category?
+
+```
+Need to FIND something in codebase?
+  → explore (internal) / librarian (external docs)
+
+Need to UNDERSTAND a problem before acting?
+  → deep-thinker (ambiguous problem)
+  → metis (task scope analysis)
+  → momus (plan review)
+
+Need a DECISION or ADVICE (read-only)?
+  → oracle (architecture/debugging)
+
+Need to IMPLEMENT something?
+  → Is it visual/UI? → category: visual-engineering
+  → Is it trivial? → category: quick
+  → Is it complex multi-file? → hephaestus or category: deep
+  → Is it well-defined? → executor or category: implementation
+  → Is it creative/unconventional? → category: artistry
+
+Need to REVIEW code?
+  → Diff-based smell detection? → code-reviewer
+  → Best practices check? → reviewer
+  → Security focus? → security-auditor or category: security
+
+Need to TEST?
+  → tester or category: testing
+
+Need to REFACTOR?
+  → refactorer (structure changes only, not bug fixes)
+
+Need DOCUMENTATION?
+  → doc-writer or category: writing
+```
+
+---
+
+### Anti-Patterns (DO NOT)
+
+- **Don't use oracle for implementation** — it's read-only, will only advise
+- **Don't use explore for external docs** — it only searches YOUR codebase
+- **Don't use librarian for local code** — it searches GitHub/web/docs
+- **Don't use executor for ambiguous tasks** — it will guess and ship without asking
+- **Don't use refactorer for bug fixes** — it changes structure, not behavior
+- **Don't fire oracle for trivial questions** — it's expensive, use explore/librarian first
+- **Don't skip categories for visual work** — `visual-engineering` is mandatory for UI tasks
 
 ## Response Style
 
