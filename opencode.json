@@ -1,7 +1,7 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "model": "9router/kr/claude-opus-4.6",
-  "small_model": "9router/kr/claude-haiku-4.5-thinking",
+  "model": "opencode-go/qwen3.7-max",
+  "small_model": "opencode-go/deepseek-v4-pro",
   "default_agent": "sisyphus",
   "instructions": ["AGENTS.md"],
   "plugin": [
@@ -14,122 +14,9 @@
     "cc-safety-net"
   ],
   "provider": {
-    "9router": {
-      "npm": "@ai-sdk/openai-compatible",
-      "options": {
-        "baseURL": "http://127.0.0.1:20128/v1",
-        "apiKey": "${ROUTER_API_KEY}"
-      },
-      "models": {
-        "kr/claude-sonnet-4.5": {
-          "name": "kr/claude-sonnet-4.5",
-          "supportsImages": true
-        },
-        "kr/claude-opus-4.6": {
-          "name": "kr/claude-opus-4.6",
-          "supportsImages": true
-        },
-        "kr/claude-haiku-4.5": {
-          "name": "kr/claude-haiku-4.5",
-          "supportsImages": true
-        },
-        "kr/claude-sonnet-4.5-thinking": {
-          "name": "kr/claude-sonnet-4.5-thinking",
-          "supportsImages": true
-        },
-        "kr/claude-sonnet-4.5-thinking-agentic": {
-          "name": "kr/claude-sonnet-4.5-thinking-agentic",
-          "supportsImages": true
-        },
-        "kr/claude-opus-4.6-thinking": {
-          "name": "kr/claude-opus-4.6-thinking",
-          "supportsImages": true
-        },
-        "kr/claude-opus-4.6-thinking-agentic": {
-          "name": "kr/claude-opus-4.6-thinking-agentic",
-          "supportsImages": true,
-          "limit": {
-            "context": 200000,
-            "output": 64000
-          },
-          "modalities": {
-            "input": ["text", "image", "pdf"],
-            "output": ["text"]
-          }
-        },
-        "kr/claude-sonnet-4.6": {
-          "name": "kr/claude-sonnet-4.6",
-          "supportsImages": true,
-          "limit": {
-            "context": 200000,
-            "output": 64000
-          },
-          "modalities": {
-            "input": ["text", "image", "pdf"],
-            "output": ["text"]
-          }
-        },
-        "kr/claude-sonnet-4.6-thinking": {
-          "name": "kr/claude-sonnet-4.6-thinking",
-          "supportsImages": true,
-          "limit": {
-            "context": 200000,
-            "output": 64000
-          },
-          "modalities": {
-            "input": ["text", "image", "pdf"],
-            "output": ["text"]
-          },
-          "variants": {
-            "low": {
-              "thinkingConfig": {
-                "thinkingBudget": 8192
-              }
-            },
-            "high": {
-              "thinkingConfig": {
-                "thinkingBudget": 16384
-              }
-            },
-            "max": {
-              "thinkingConfig": {
-                "thinkingBudget": 32768
-              }
-            }
-          }
-        },
-        "kr/claude-haiku-4.5-thinking": {
-          "name": "kr/claude-haiku-4.5-thinking",
-          "supportsImages": true,
-          "limit": {
-            "context": 200000,
-            "output": 64000
-          },
-          "modalities": {
-            "input": ["text", "image", "pdf"],
-            "output": ["text"]
-          },
-          "variants": {
-            "low": {
-              "thinkingConfig": {
-                "thinkingBudget": 4096
-              }
-            },
-            "high": {
-              "thinkingConfig": {
-                "thinkingBudget": 10240
-              }
-            }
-          }
-        },
-        "cx/gpt-5.5": {
-          "name": "cx/gpt-5.5",
-          "supportsImages": true
-        },
-        "cx/gpt-5.3-codex-xhigh": {
-          "name": "cx/gpt-5.3-codex-xhigh"
-        }
-      }
+    "opencode-go": {
+      "npm": "opencode-go",
+      "options": {}
     }
   }
 }
