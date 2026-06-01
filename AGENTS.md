@@ -90,6 +90,61 @@ Violation = broken diff history, no rollback possible, user loses trust.
 - Keep dependencies updated
 - Never commit secrets or credentials
 
+## Git & File Exclusion Rules
+
+**MANDATORY:** Always exclude AI agent temporary files from version control and archives.
+
+### .gitignore
+`.sisyphus/` MUST be in `.gitignore` for every project. This folder contains AI agent run data and temporary files that should never be committed.
+
+### Zip/Archive Exclusion
+When creating zip archives or distributing projects, ALWAYS exclude:
+- `.sisyphus/` — AI agent temporary files
+- `node_modules/` — Dependencies (reinstall via `npm install`)
+- `vendor/` — PHP dependencies (reinstall via `composer install`)
+- `.git/` — Version control metadata
+
+### Zip Naming Convention (MANDATORY)
+Format: `[ProjectName]-update[DD-MM-YYYY].zip`
+
+Example:
+- Project: `RRI`, Date: 1 Juni 2026 → `RRI-update01-06-2026.zip`
+- Project: `MyApp`, Date: 25 Desember 2025 → `MyApp-update25-12-2025.zip`
+
+Zip command with proper naming:
+```bash
+zip -r [ProjectName]-update[DD-MM-YYYY].zip . -x ".sisyphus/*" "node_modules/*" "vendor/*" ".git/*"
+```
+
+**Never commit or distribute `.sisyphus/` folder.**
+
+## SQL Dump Rules (MANDATORY)
+
+**NEVER use collation with `_ai_ci` suffix in SQL dumps.**
+
+When generating, exporting, or writing SQL dumps (MySQL/MariaDB):
+
+1. **FORBIDDEN collations** — any collation ending with `_ai_ci`:
+   - `utf8mb4_0900_ai_ci`
+   - `utf8mb4_de_pb_0900_ai_ci`
+   - `utf8mb4_es_0900_ai_ci`
+   - Any other `*_ai_ci` variant
+
+2. **USE these collations instead:**
+   - `utf8mb4_general_ci` (default, widely compatible)
+   - `utf8mb4_unicode_ci` (better Unicode sorting)
+
+3. **When dumping from MySQL 8.0+** (which defaults to `_ai_ci`):
+   - Always add `--collation-server=utf8mb4_general_ci` flag, OR
+   - Post-process the dump: replace all `_ai_ci` collations with `_general_ci`
+   - Example: `sed -i 's/utf8mb4_0900_ai_ci/utf8mb4_general_ci/g' dump.sql`
+
+4. **When writing SQL manually:**
+   - Always specify `COLLATE utf8mb4_general_ci` explicitly in `CREATE TABLE` statements
+   - Never rely on server default collation
+
+**Why:** `_ai_ci` collations are MySQL 8.0+ specific and cause compatibility issues when importing to older MySQL versions or MariaDB.
+
 ## Language-Specific Guidelines
 
 ### TypeScript/JavaScript
