@@ -4,118 +4,117 @@
   "team_mode": {
     "enabled": true
   },
-  "disabled_hooks": [
-    "anthropic-context-window-limit-recovery"
-  ],
   "browser_automation_engine": {
     "provider": "playwright"
   },
   "agents": {
     "hephaestus": {
-      "model": "9router/kr/claude-opus-4.6-thinking",
+      "model": "opencode-go/deepseek-v4-pro",
       "variant": "max"
     },
     "sisyphus": {
-      "model": "9router/kr/claude-opus-4.6-thinking-agentic",
+      "model": "opencode-go/qwen3.7-max",
       "variant": "max"
     },
     "oracle": {
-      "model": "9router/kr/claude-opus-4.6-thinking-agentic",
-      "variant": "high"
+      "model": "opencode-go/glm-5.1",
+      "variant": "max"
     },
     "librarian": {
-      "model": "9router/kr/claude-sonnet-4.6"
+      "model": "opencode-go/deepseek-v4-flash",
+      "variant": "high"
     },
     "explore": {
-      "model": "9router/kr/claude-sonnet-4.6-thinking",
+      "model": "opencode-go/deepseek-v4-flash",
       "variant": "high"
     },
     "multimodal-looker": {
-      "model": "9router/kr/claude-sonnet-4.6-thinking",
-      "variant": "high"
+      "model": "opencode-go/mimo-v2.5-pro"
     },
     "prometheus": {
-      "model": "9router/kr/claude-opus-4.6-thinking-agentic",
+      "model": "opencode-go/glm-5.1",
       "variant": "max"
     },
     "metis": {
-      "model": "9router/kr/claude-opus-4.6-thinking-agentic",
-      "variant": "max"
+      "model": "opencode-go/qwen3.7-max",
+      "variant": "high"
     },
     "momus": {
-      "model": "9router/kr/claude-sonnet-4.6"
+      "model": "opencode-go/qwen3.7-max",
+      "variant": "high"
     },
     "atlas": {
-      "model": "9router/kr/claude-sonnet-4.6-thinking",
+      "model": "opencode-go/deepseek-v4-pro",
       "variant": "high"
     },
     "executor": {
-      "model": "9router/kr/claude-sonnet-4.6-thinking",
-      "variant": "low"
+      "model": "opencode-go/deepseek-v4-pro",
+      "variant": "high"
     },
     "reviewer": {
-      "model": "9router/kr/claude-sonnet-4.6-thinking",
+      "model": "opencode-go/deepseek-v4-pro",
       "variant": "max"
     },
     "tester": {
-      "model": "9router/kr/claude-sonnet-4.6-thinking",
-      "variant": "max"
+      "model": "opencode-go/deepseek-v4-pro",
+      "variant": "high"
     },
     "security-auditor": {
-      "model": "9router/kr/claude-sonnet-4.6-thinking",
+      "model": "opencode-go/glm-5.1",
       "variant": "max"
     },
     "refactorer": {
-      "model": "9router/kr/claude-sonnet-4.6-thinking",
-      "variant": "max"
+      "model": "opencode-go/deepseek-v4-pro",
+      "variant": "high"
     },
     "doc-writer": {
-      "model": "9router/kr/claude-sonnet-4.6-thinking",
+      "model": "opencode-go/qwen3.7-max",
       "variant": "high"
     }
   },
   "categories": {
     "visual-engineering": {
-      "model": "9router/kr/claude-sonnet-4.6-thinking",
+      "model": "opencode-go/mimo-v2.5-pro",
       "variant": "high"
     },
     "artistry": {
-      "model": "9router/kr/claude-sonnet-4.6-thinking",
+      "model": "opencode-go/glm-5.1",
       "variant": "high"
     },
     "writing": {
-      "model": "9router/kr/claude-sonnet-4.6"
+      "model": "opencode-go/qwen3.7-max",
+      "variant": "high"
     },
     "quick": {
-      "model": "9router/kr/claude-haiku-4.5-thinking",
+      "model": "opencode-go/deepseek-v4-flash",
       "variant": "high"
     },
     "ultrabrain": {
-      "model": "9router/kr/claude-opus-4.6-thinking-agentic",
+      "model": "opencode-go/glm-5.1",
       "variant": "max"
     },
     "implementation": {
-      "model": "9router/kr/claude-sonnet-4.6-thinking",
+      "model": "opencode-go/deepseek-v4-pro",
       "variant": "max"
     },
     "review": {
-      "model": "9router/kr/claude-sonnet-4.6-thinking",
+      "model": "opencode-go/deepseek-v4-pro",
       "variant": "max"
     },
     "testing": {
-      "model": "9router/kr/claude-sonnet-4.6-thinking",
-      "variant": "max"
+      "model": "opencode-go/deepseek-v4-pro",
+      "variant": "high"
     },
     "security": {
-      "model": "9router/kr/claude-opus-4.6-thinking",
+      "model": "opencode-go/glm-5.1",
       "variant": "max"
     },
     "unspecified-low": {
-      "model": "9router/kr/claude-haiku-4.5-thinking",
+      "model": "opencode-go/deepseek-v4-flash",
       "variant": "high"
     },
     "unspecified-high": {
-      "model": "9router/kr/claude-opus-4.6-thinking",
+      "model": "opencode-go/deepseek-v4-pro",
       "variant": "max"
     }
   }
