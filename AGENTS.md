@@ -145,6 +145,91 @@ When generating, exporting, or writing SQL dumps (MySQL/MariaDB):
 
 **Why:** `_ai_ci` collations are MySQL 8.0+ specific and cause compatibility issues when importing to older MySQL versions or MariaDB.
 
+## Laravel cPanel Deployment Rules (MANDATORY)
+
+**⚠️ AGENT INSTRUCTION**: All `nama-project` references below MUST be automatically replaced with the actual project directory name (derived from the current working project's folder name or the user's cPanel setup). Do NOT leave `nama-project` as-is — resolve it dynamically per project.
+
+**Deployment flow overview** (follow in order):
+1. **Local build** → `composer install --no-dev --optimize-autoloader` + `npm run build`
+2. **Deployment files** → Modify `public/index.php`, `public/symlink.php` with `nama-project` paths
+3. **ZIPs** → Create `nama-project.zip` (app code) + `public-html.zip` (public/*)
+4. **Restore** original `public/index.php` for local dev
+5. **Server: extract** → `nama-project.zip` in `~/nama-project/`, `public-html.zip` in `~/public_html/`
+6. **Server: PHP extensions** → cPanel > Select PHP Version > enable `pdo`, `nd_pdo_mysql`, `mysqlnd`, etc.
+7. **Server: DB** → Create DB in cPanel, import existing SQL from `database/*.sql`, set `.env`
+8. **Server: Symlink** → Run `symlink.php` via browser then DELETE it
+9. **Server: Permissions** → `chmod -R 755 storage/ bootstrap/cache/`
+
+When deploying Laravel to **cPanel/shared hosting**, the directory structure MUST be split:
+
+1. **`public/` contents** → go into `public_html/` (the web root cPanel serves)
+2. **Everything else** (app, config, routes, vendor, etc.) → placed OUTSIDE `public_html/`, typically in a sibling folder (e.g., `~/nama-project/` or `~/private/laravel/`)
+3. **NEVER upload the entire Laravel project into `public_html/`** — this exposes `.env`, `vendor/`, source code, and is a critical security vulnerability.
+
+### Required Path Adjustments
+
+After splitting, `public_html/index.php` MUST be updated to point to the correct bootstrap paths:
+
+```php
+// BEFORE (default Laravel)
+require __DIR__.'/../vendor/autoload.php';
+$app = require_once __DIR__.'/../bootstrap/app.php';
+
+// AFTER (cPanel split structure)
+require __DIR__.'/../nama-project/vendor/autoload.php';
+$app = require_once __DIR__.'/../nama-project/bootstrap/app.php';
+```
+
+> Adjust `nama-project` to the actual folder name used on the server.
+
+### Storage Symlink (MANDATORY)
+
+Laravel's `storage/` directory must be symlinked into `public_html/` so uploaded files and assets are accessible.
+
+**If SSH available:**
+```bash
+ln -s /home/USERNAME/nama-project/storage/app/public /home/USERNAME/public_html/storage
+```
+
+**If no SSH access**, create `public_html/symlink.php` — a one-time helper script to run via browser, then delete immediately after use.
+
+If `php artisan storage:link` is used, it creates the symlink relative to the app's `public/` folder — which no longer exists on cPanel. **Always create the symlink manually** with absolute paths.
+
+### Reference Guide
+
+For the full step-by-step deployment procedure, see: **`deployment-cpanel.md`** (located alongside this file).
+
+**Always follow `deployment-cpanel.md` when instructed to "build and deploy to cPanel".**
+
+### cPanel Deployment Verification Checklist (MANDATORY)
+
+Before declaring deployment prep complete, VERIFY all of the following:
+
+1. **`public/index.php` paths** — Must point to `../nama-project/vendor/autoload.php` and `../nama-project/bootstrap/app.php`, NOT the default Laravel paths
+2. **`public/symlink.php` paths** — Must point to `../nama-project/storage/app/public`, NOT `laravel_app` or other old names
+3. **ZIP contents are current** — After ANY file change (index.php, symlink.php, etc.), the ZIP must be RECREATED/UPDATED. Don't ship stale ZIPs
+4. **`nama-project` consistency** — All path references across ALL deployment files use the SAME project directory name. No mix of `laravel_app`, `nama-project`, or the actual project name
+5. **After ZIP creation, restore original files** — `public/index.php` must be restored to default Laravel paths for local dev to keep working
+6. **Check for pre-existing SQL dump** — Before exporting/migrating, check `database/` for existing `.sql` files. Use the existing one (with data) rather than creating a fresh empty export
+7. **`.env.production` DB name accuracy** — DB name format is `cpaneluser_dbname`. Verify with actual cPanel MySQL database name. Do NOT guess based on project name
+8. **PHP extensions verification** — Before declaring deploy-ready, verify target server has: `pdo`, `pdo_mysql` (or `nd_pdo_mysql`), `mysqlnd`, `mbstring`, `openssl`, `tokenizer`, `ctype`, `json`, `fileinfo` enabled
+9. **Full ZIP audit after any fix** — When fixing a file inside ZIP, verify ALL deployment-critical files (index.php, symlink.php) are updated — not just the one you edited. Stale files in ZIP cause silent failures
+10. **Server-side PHP version check** — Confirm PHP version on cPanel matches project requirement (check `composer.json` require section). If mismatch, note it before deployment
+
+Run these verification commands:
+```bash
+# Verify index.php inside ZIP
+unzip -p public-html.zip index.php | grep 'require.*autoload'
+
+# Verify symlink.php inside ZIP  
+unzip -p public-html.zip symlink.php | grep 'target'
+
+# Check no stale laravel_app references remain
+unzip -l public-html.zip laravel-app.zip 2>/dev/null | grep -i laravel_app && echo "STALE REFERENCE FOUND!"
+```
+
+---
+
 ## Language-Specific Guidelines
 
 ### TypeScript/JavaScript
