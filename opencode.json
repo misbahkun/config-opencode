@@ -6,17 +6,198 @@
   "instructions": ["AGENTS.md"],
   "plugin": [
     "oh-my-openagent",
-    "@tarquinen/opencode-dcp",
-    "opencode-supermemory",
-    "@ramtinj95/opencode-tokenscope",
-    "opencode-wakatime",
-    "opencode-sync-plugin",
-    "cc-safety-net"
+    "@franlol/opencode-md-table-formatter@0.0.3",
+    "cc-safety-net",
+    "@tarquinen/opencode-dcp@latest",
+    "@ramtinj95/opencode-tokenscope@latest"
   ],
   "provider": {
     "opencode-go": {
       "npm": "opencode-go",
-      "options": {}
+      "options": {
+        "apiKey": "${OPENCODE_GO_API_KEY}"
+      }
+    },
+    "9r": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "9Router",
+      "options": {
+        "baseURL": "http://localhost:20128/v1",
+        "apiKey": "${ROUTER_API_KEY}"
+      },
+      "models": {
+        "cx/gpt-5.5": { "name": "GPT-5.5" },
+        "cx/gpt-5.4": { "name": "GPT-5.4" },
+        "cx/gpt-5.4-mini": { "name": "GPT-5.4 Mini" },
+        "cx/gpt-5.3-codex": { "name": "GPT-5.3 Codex" },
+        "cx/gpt-5.3-codex-xhigh": { "name": "GPT-5.3 Codex XHigh" },
+        "kr/claude-sonnet-4.5": { "name": "Claude Sonnet 4.5" },
+        "kr/claude-haiku-4.5": { "name": "Claude Haiku 4.5" },
+        "kr/claude-opus-4.6": { "name": "Claude Opus 4.6" },
+        "kr/deepseek-3.2": { "name": "DeepSeek 3.2" },
+        "kr/qwen3-coder-next": { "name": "Qwen3 Coder Next" },
+        "kr/glm-5": { "name": "GLM-5" },
+        "kr/MiniMax-M2.5": { "name": "MiniMax M2.5" }
+      }
     }
+  },
+  "agent": {
+    "explorer": {
+      "description": "Fast explorer subagent for codebase exploration",
+      "mode": "subagent",
+      "model": "opencode-go/deepseek-v4-flash"
+    },
+    "sisyphus": {
+      "description": "Ultra-powerful agent for the most complex, multi-step tasks requiring deep reasoning",
+      "mode": "subagent",
+      "model": "opencode-go/qwen3.7-max"
+    },
+    "oracle": {
+      "description": "Strategic planning and high-level architecture decisions",
+      "mode": "subagent",
+      "model": "opencode-go/glm-5.1"
+    },
+    "prometheus": {
+      "description": "Complex problem solving with extended thinking",
+      "mode": "subagent",
+      "model": "opencode-go/glm-5.1"
+    },
+    "metis": {
+      "description": "Intelligent code analysis and optimization",
+      "mode": "subagent",
+      "model": "opencode-go/qwen3.7-max"
+    },
+    "executor": {
+      "description": "Fast execution of well-defined implementation tasks",
+      "mode": "subagent",
+      "model": "opencode-go/deepseek-v4-pro"
+    },
+    "reviewer": {
+      "description": "Thorough code review with security and quality focus",
+      "mode": "subagent",
+      "model": "opencode-go/deepseek-v4-pro"
+    },
+    "tester": {
+      "description": "Test generation and testing strategy",
+      "mode": "subagent",
+      "model": "opencode-go/deepseek-v4-pro"
+    },
+    "security-auditor": {
+      "description": "Security vulnerability analysis and penetration testing mindset",
+      "mode": "subagent",
+      "model": "opencode-go/glm-5.1"
+    },
+    "refactorer": {
+      "description": "Code refactoring and technical debt reduction",
+      "mode": "subagent",
+      "model": "opencode-go/deepseek-v4-pro"
+    },
+    "doc-writer": {
+      "description": "Documentation writing and technical writing",
+      "mode": "subagent",
+      "model": "opencode-go/qwen3.7-max"
+    },
+    "multimodal-looker": {
+      "description": "Visual and multimodal analysis - reads and interprets images, diagrams, screenshots",
+      "mode": "subagent",
+      "model": "opencode-go/mimo-v2.5-pro"
+    }
+  },
+  "mcp": {
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+      "enabled": true
+    },
+    "exa": {
+      "type": "remote",
+      "url": "https://mcp.exa.ai/mcp",
+      "enabled": false,
+      "headers": {
+        "Authorization": "Bearer ${EXA_API_KEY}"
+      }
+    },
+    "playwright": {
+      "type": "local",
+      "command": ["npx", "-y", "@playwright/mcp@latest"],
+      "enabled": true
+    }
+  },
+  "permission": {
+    "read": "allow",
+    "edit": "allow",
+    "write": "allow",
+    "glob": "allow",
+    "grep": "allow",
+    "list": "allow",
+    "task": "allow",
+    "todowrite": "allow",
+    "question": "allow",
+    "webfetch": "allow",
+    "bash": {
+      "git status": "allow",
+      "git diff *": "allow",
+      "git log *": "allow",
+      "git branch *": "allow",
+      "git checkout *": "allow",
+      "git add *": "allow",
+      "git commit *": "allow",
+      "npm run *": "allow",
+      "npm test": "allow",
+      "npm start": "allow",
+      "npm run build": "allow",
+      "node *": "allow",
+      "python *": "allow",
+      "pip list": "allow",
+      "ls *": "allow",
+      "dir *": "allow",
+      "cat *": "allow",
+      "type *": "allow",
+      "echo *": "allow",
+      "touch *": "ask",
+      "mkdir *": "ask",
+      "rm *": "ask",
+      "del *": "ask",
+      "cp *": "ask",
+      "mv *": "ask",
+      "dd *": "deny",
+      "sudo *": "ask",
+      "chmod *": "ask",
+      "chown *": "ask",
+      "curl *": "ask",
+      "wget *": "ask",
+      "npm install *": "ask",
+      "pip install *": "ask",
+      "git push *": "ask",
+      "git reset --hard *": "ask",
+      "git clean *": "ask",
+      "reboot": "deny",
+      "shutdown": "deny",
+      "kill *": "ask",
+      "killall *": "ask",
+      "docker *": "ask",
+      "mkfs *": "deny",
+      "fdisk *": "deny",
+      "parted *": "deny",
+      "format *": "deny",
+      "git branch -d *": "ask",
+      "git branch -D *": "ask",
+      "git rebase *": "ask",
+      "npm run publish": "ask",
+      "ssh *": "ask",
+      "scp *": "ask",
+      "rsync *": "ask",
+      "*": "allow"
+    },
+    "doom_loop": "ask",
+    "external_directory": "ask"
+  },
+  "tool_output": {
+    "max_lines": 2000,
+    "max_bytes": 51200
+  },
+  "compaction": {
+    "auto": true,
+    "tail_turns": 15
   }
 }
